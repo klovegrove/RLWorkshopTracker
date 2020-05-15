@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from discordToken import token
 
-tokenOld = 'NzA4NDUzMjI0OTg5OTgyNzMx.Xr4l3w.dJEp0N0DBqqTUoEuQYWpShsKc5I'
 client = commands.Bot(command_prefix = '.')
 
 @client.event
