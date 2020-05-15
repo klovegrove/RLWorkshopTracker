@@ -29,7 +29,7 @@ def getWorkshopMaps():
     driver = webdriver.Chrome()
     driver.get('https://steamcommunity.com/workshop/browse/?appid=252950&browsesort=trend&section=readytouseitems&actualsort=trend&p=1&days=-1')
 
-    workshopMaps = set()
+    workshopMaps = list()
     
     content = driver.page_source
     soup = BeautifulSoup(content)
@@ -44,7 +44,7 @@ def getWorkshopMaps():
 
         map.description = getDescription(script)
 
-        workshopMaps.add(map)
+        workshopMaps.append(map)
         
         # print(f'Map Name: {map.name}')
         # print(f'Map Author: {map.author}')
@@ -56,7 +56,7 @@ def getWorkshopMaps():
 
     return workshopMaps
 
-x = getWorkshopMaps()
+# x = getWorkshopMaps()
 
-for map in x:
-    print(map.name)
+# for map in x:
+#     print(map.name)
