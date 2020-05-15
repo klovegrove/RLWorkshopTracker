@@ -6,7 +6,7 @@ import scraper
 import io
 import aiohttp
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = ('.', '!', '?'), case_insensitive = True)
 
 workshopMaps = scraper.getWorkshopMaps()
 
