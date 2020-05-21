@@ -1,54 +1,70 @@
 import discord
 from discord.ext import commands
 from discordToken import token
-import scraper
+import cogs._scraper
+import platform # For stats
+import json
+from pathlib import Path
+import os
 
-import io
-import aiohttp
+cwd = Path(__file__).parents[0]
+cwd = str(cwd)
 
-client = commands.Bot(command_prefix = ('.', '!', '?'), case_insensitive = True)
+# workshopMaps = cogs._scraper.getWorkshopMaps()
 
-workshopMaps = scraper.getWorkshopMaps()
+prefixes = ['.', '!', '?', 'test.', 'hey you, ', 'hey bot, ']
+
+client = commands.Bot(command_prefix = prefixes, case_insensitive = True)
+client.version = '0.0.2'
+client.blacklisted_users = []
 
 @client.event
 async def on_ready():
-    print('Bot is ready...')
-    # workshopMaps = scraper.getWorkshopMaps()
-    print(f'loaded up {len(workshopMaps)} maps')
-    print(workshopMaps[0].name)
+    await client.change_presence(activity = discord.Game('python is cool'))
+    load_cogs()
     print('Bot is ready...')
 
-@client.event
-async def on_member_join(member : discord.Member):
-    channel = client.get_channel(708461726080827412)
-    await channel.send(f'{member.mention} has joined the server!')
 
 @client.event
-async def on_member_remove(member : discord.Member):
-    channel = client.get_channel(708461726080827412)
-    await channel.send(f'{member.mention} has left the server...')
+async def on_message(message):
+    # Ignore ourselves
+    if message.author.id == client.user.id:
+        return
 
-@client.command(brief = 'Returns current latency', description = 'Returns current latency')
-async def ping(ctx):
-    # await ctx.send(f'Pong! latency: {round(client.latency * 1000)}ms')
-    embed = discord.Embed(title="Pong!", description='It took {}ms.'.format(round(client.latency * 1000)), color=0xffffff)
-    await ctx.send(embed=embed)
-    await ctx.send(f'Channel ID is {ctx.channel.id}')
+    # Blacklist system
+    if message.author.id in client.blacklisted_users:
+        return
 
-@client.command(brief = 'Returns first map of the workshopMaps list', description = 'Returns first map of the workshopMaps list')
-async def firstMap(ctx):
-    map = workshopMaps[0]
+    #Whenever the bot is tagged, respond with its prefix
+    if f"<@!{client.user.id}>" in message.content:
+        prefixString =""
+        for i in range(0, (len(prefixes) - 2)):
+            prefixString += f'"{prefixes[i]}", '
+        prefixString += f'and "{prefixes[len(prefixes) - 1]}"'
+        prefixMsg = await message.channel.send(f"My prefixes here are {prefixString}")
+        await prefixMsg.add_reaction('👀')
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(map.imgLink) as resp:
-            if resp.status != 200:
-                return await ctx.send('Could not download file...')
-            data = io.BytesIO(await resp.read())
-            #await ctx.send(file=discord.File(data, 'cool_image.png'))
+    await client.process_commands(message)
 
-    embed = discord.Embed(title=map.name, description=f'\nMap Name: {map.name}\nAuthor: {map.author}\nDescription: {map.description}\nLink: {map.mapLink}', color=0xffffff)
-    embed.set_image(url = map.imgLink)
-    await ctx.send(embed=embed)
-    
+@client.command()
+async def load(ctx, extension):
+    client.load_extension(f'cogs.{extension}')
+    await ctx.send(f'The {extension} Cog has been loaded!')
+
+@client.command()
+async def unload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
+    await ctx.send(f'The {extension} Cog has been unloaded!')
+
+@client.command()
+async def reload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
+    client.load_extension(f'cogs.{extension}')
+    await ctx.send(f'The {extension} Cog has been reloaded!')
+
+def load_cogs():
+    for file in os.listdir("./cogs"):
+        if file.endswith(".py") and not file.startswith("_"):
+            client.load_extension(f"cogs.{file[:-3]}")
 
 client.run(token)

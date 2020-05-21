@@ -12,18 +12,34 @@ class WorkshopMap:
         self.mapLink = ''        
 
 def getDescription(script):
-    pattern = '(?<=\"description\"\:).*(?=\,\"user_subscribed\")'
+    pattern = '(?<=\"description\"\:\").*(?=\"\,\"user_subscribed\")'
     found = ''
 
     script = str(script)
-    # print(script)
 
     try:
         found = re.search(pattern, script).group(0)    
     except AttributeError as err:
         found = ''
 
+    # Parse the description to make it more readable
+    remove = ['<br \\/>', '\\n', '\\r', '\\']
+    result = found
+
+    for i in remove:
+        new = ''
+
+        if (i == '\\n'):
+            new = '\n'
+
+        found = found.replace(i, new)
+
     return found
+
+def getSteamURL(link):
+    start = link.find('id=') + 3
+    result = link[start : start + 10 ]
+    return result
 
 def getWorkshopMaps():
     driver = webdriver.Chrome()
@@ -32,7 +48,7 @@ def getWorkshopMaps():
     workshopMaps = list()
     
     content = driver.page_source
-    soup = BeautifulSoup(content)
+    soup = BeautifulSoup(content, features="html.parser")
     for a in soup.findAll('div', attrs={'class':'workshopItem'}):
         map = WorkshopMap()
         map.name = a.find('div', attrs={'class':'workshopItemTitle'}).text
