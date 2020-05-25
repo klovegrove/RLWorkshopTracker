@@ -1,0 +1,49 @@
+{
+    "lastUpdated": "2019-12-04",
+    "workshopMaps": [
+        {
+            "id": "0000000000",
+            "name": "Example",
+            "nicknames": ["Example", "nickname 1"],
+            "author": "Author",
+            "description": "This is an example json entry",
+            "imgLink": "http://test.cc/img.png",
+            "mapLink": "testMapLink",
+            "trackingData": {
+                "type": ["time", "levels"],
+                "Data": [
+                    {
+                        "userID": "247086199200677888",
+                        "best": {
+                            "time": "9:52",
+                            "level": 12
+                        },
+                        "first": {
+                            "time": "10:13",
+                            "level": null
+                        },
+                        "latest": {
+                            "time": "9:55",
+                            "level": 12
+                        }
+                    },
+                    {
+                        "userID": "318472563980238848",
+                        "best": {
+                            "time": "8:32",
+                            "level": 15
+                        },
+                        "first": {
+                            "time": "8:32",
+                            "level": 15
+                        },
+                        "latest": {
+                            "time": "8:32",
+                            "level": 15
+                        }                        
+                    }
+                ]
+            }
+        }
+    ]
+}

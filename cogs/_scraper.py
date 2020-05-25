@@ -2,14 +2,26 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
+import _json
+
+## What I want this to do:
+#### 1. Get data from steam
+#### 2. Put the data into objects
+#### 3. Write the data to a json file
+#### 4. Return the data to the bot right away as well,
+####    instead of making the bot read the json
+# -- I'll probably have this only run once, or maybe monthly? And then do a compare and add any new maps in 
 
 class WorkshopMap:
     def __init__(self):
+        self.id = ''
         self.name = ''
+        self.nicknames = []
         self.author = ''
         self.description = ''
         self.imgLink = ''
-        self.mapLink = ''        
+        self.mapLink = ''
+        self.trackingData = ''
 
 def getDescription(script):
     pattern = '(?<=\"description\"\:\").*(?=\"\,\"user_subscribed\")'
@@ -41,17 +53,22 @@ def getSteamURL(link):
     result = link[start : start + 10 ]
     return result
 
-def getWorkshopMaps():
+def getWorkshopMaps(maps = []):
     driver = webdriver.Chrome()
     driver.get('https://steamcommunity.com/workshop/browse/?appid=252950&browsesort=trend&section=readytouseitems&actualsort=trend&p=1&days=-1')
 
-    workshopMaps = list()
-    
+    workshopMaps = []
+    idList = [x.id for x in maps]
+    changedIds = []
+
     content = driver.page_source
     soup = BeautifulSoup(content, features="html.parser")
+
     for a in soup.findAll('div', attrs={'class':'workshopItem'}):
         map = WorkshopMap()
+        map.id = a.find('a', attrs = {'class': 'ugc'})['data-publishedfileid']
         map.name = a.find('div', attrs={'class':'workshopItemTitle'}).text
+        map.nicknames = [map.name.lower()]
         map.author = a.find('div', attrs={'class':'workshopItemAuthorName'}).find('a').text 
         map.imgLink = a.find('a', attrs = {'class': 'ugc'}).find('div', attrs = {'class': 'workshopItemPreviewHolder'}).find('img', attrs = {'class': 'workshopItemPreviewImage'})['src']
         map.mapLink = a.find('a', attrs = {'class': 'ugc'})['href']
@@ -60,15 +77,20 @@ def getWorkshopMaps():
 
         map.description = getDescription(script)
 
+        # if the id is in the list, add the existing trackingData
+        if (map.id in idList):
+            map.trackingData = [ x for x in maps if x.id == map.id ][0].trackingData
+
         workshopMaps.append(map)
-        
-        # print(f'Map Name: {map.name}')
-        # print(f'Map Author: {map.author}')
-        # print(f'Tumbnail Link: {map.imgLink}')
-        # print(f'Map Link: {map.mapLink}')
-        # print('---------------------------------\n')
+        changedIds.append(map.id)        
 
     driver.quit()
+
+    unchangedMaps = [x for x in maps if x.id not in changedIds]
+
+    unchangedMaps.extend(workshopMaps)
+
+    workshopMaps = unchangedMaps
 
     return workshopMaps
 
