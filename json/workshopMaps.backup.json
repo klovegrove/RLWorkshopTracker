@@ -4,7 +4,7 @@
         {
             "id": "0000000000",
             "name": "Example",
-            "nicknames": ["Example", "nickname 1"],
+            "nicknames": ["example", "nickname 1"],
             "author": "Author",
             "description": "This is an example json entry",
             "imgLink": "http://test.cc/img.png",

@@ -78,15 +78,8 @@ def parseJSON(data):
     maps = []
     for map in data['workshopMaps']:
         out = _scraper.WorkshopMap()
-        out.id = map['id']
-        out.name = map['name']
-        out.nicknames = map['nicknames']
-        out.author = map['author']
-        out.description = map['description']
-        out.imgLink = map['imgLink']
-        out.mapLink = map['mapLink']
-
-        out.trackingData = map['trackingData']
+        for key, value in map.items():
+          setattr(out, key, value)   
 
         maps.append(out)
     return maps
@@ -95,16 +88,7 @@ def toDict(maps):
     outArray = []
 
     for map in maps:
-        d = {
-            "id": map.id,
-            "name": map.name,
-            "nicknames": map.nicknames,
-            "author": map.author,
-            "description": map.description,
-            "imgLink": map.imgLink,
-            "mapLink": map.mapLink,
-            "trackingData": map.trackingData 
-        }
+        d = map.__dict__
         outArray.append(d)
     return outArray
 

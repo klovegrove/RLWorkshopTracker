@@ -54,37 +54,39 @@ def getSteamURL(link):
     return result
 
 def getWorkshopMaps(maps = []):
-    driver = webdriver.Chrome()
-    driver.get('https://steamcommunity.com/workshop/browse/?appid=252950&browsesort=trend&section=readytouseitems&actualsort=trend&p=1&days=-1')
+    #driver = webdriver.Chrome()
+    with webdriver.Chrome() as driver:
+        driver.get('https://steamcommunity.com/workshop/browse/?appid=252950&browsesort=trend&section=readytouseitems&actualsort=trend&p=1&days=-1')
 
-    workshopMaps = []
-    idList = [x.id for x in maps]
-    changedIds = []
+        workshopMaps = []
+        idList = [x.id for x in maps]
+        changedIds = []
 
-    content = driver.page_source
-    soup = BeautifulSoup(content, features="html.parser")
+        content = driver.page_source
+        soup = BeautifulSoup(content, features="html.parser")
 
-    for a in soup.findAll('div', attrs={'class':'workshopItem'}):
-        map = WorkshopMap()
-        map.id = a.find('a', attrs = {'class': 'ugc'})['data-publishedfileid']
-        map.name = a.find('div', attrs={'class':'workshopItemTitle'}).text
-        map.nicknames = [map.name.lower()]
-        map.author = a.find('div', attrs={'class':'workshopItemAuthorName'}).find('a').text 
-        map.imgLink = a.find('a', attrs = {'class': 'ugc'}).find('div', attrs = {'class': 'workshopItemPreviewHolder'}).find('img', attrs = {'class': 'workshopItemPreviewImage'})['src']
-        map.mapLink = a.find('a', attrs = {'class': 'ugc'})['href']
-        
-        script = a.next_sibling.next_sibling
+        for a in soup.findAll('div', attrs={'class':'workshopItem'}):
+            map = WorkshopMap()
+            map.id = a.find('a', attrs = {'class': 'ugc'})['data-publishedfileid']
+            map.name = a.find('div', attrs={'class':'workshopItemTitle'}).text
+            map.nicknames = [map.name.lower()]
+            map.author = a.find('div', attrs={'class':'workshopItemAuthorName'}).find('a').text 
+            map.imgLink = a.find('a', attrs = {'class': 'ugc'}).find('div', attrs = {'class': 'workshopItemPreviewHolder'}).find('img', attrs = {'class': 'workshopItemPreviewImage'})['src']
+            map.mapLink = a.find('a', attrs = {'class': 'ugc'})['href']
+            
+            script = a.next_sibling.next_sibling
 
-        map.description = getDescription(script)
+            map.description = getDescription(script)
 
-        # if the id is in the list, add the existing trackingData
-        if (map.id in idList):
-            map.trackingData = [ x for x in maps if x.id == map.id ][0].trackingData
+            # if the id is in the list, add the existing trackingData
+            if (map.id in idList):
+                map.trackingData = [ x for x in maps if x.id == map.id ][0].trackingData
+                map.nicknames = [ x.nicknames for x in maps if x.id == map.id]
 
-        workshopMaps.append(map)
-        changedIds.append(map.id)        
+            workshopMaps.append(map)
+            changedIds.append(map.id)        
 
-    driver.quit()
+    #driver.quit()
 
     unchangedMaps = [x for x in maps if x.id not in changedIds]
 
