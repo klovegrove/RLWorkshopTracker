@@ -5,6 +5,11 @@
 ### My Discord Token ###
 discordToken.py
 
+### Replit Stuff ###
+.replit
+poetry.lock
+pyproject.toml
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
