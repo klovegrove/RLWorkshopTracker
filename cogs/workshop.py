@@ -3,6 +3,7 @@ from discord.ext import commands
 import platform
 from datetime import date
 from cogs import _scraper, _json
+import asyncio
 
 class Workshop(commands.Cog):
     
@@ -47,13 +48,55 @@ class Workshop(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command()
-    async def getMapByName(self, ctx, *, name):        
+    async def getMap(self, ctx, *, name):        
         result = [ x for x in self.workshopMaps if name.lower() in x.nicknames]
         if (len(result) != 0):
+            print(result[0])
             embed = getMapEmbed(result[0])
             await ctx.send(embed=embed)
         else:
             await ctx.send("I couldn't find that map, sorry!")
+
+    def getMapByName(self, name):
+        return [ x for x in self.workshopMaps if name.lower() in x.nicknames][0]
+
+    @commands.command()
+    async def getMap2(self, ctx, *, name):
+        map = self.getMapByName(name)
+        if map is not None:
+            embed = getMapEmbed(map)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("I couldn't find that map, sorry!")
+
+    @commands.command()
+    async def addNickname(self, ctx, *, name):
+        map = self.getMapByName(name)
+        await ctx.send(f'So you want to add a nickname to the map \"{map.name}\" by {map.author}?')
+        await ctx.send('Please confirm by reacting with 👍 or 👎')
+
+        def check(reaction, user):
+            return user == ctx.author
+
+        try:
+            reaction, user = await self.client.wait_for('reaction_add', timeout=60.0, check=check)
+
+            await ctx.send(f'reaction: {reaction}')
+            if str(reaction.emoji) == '👍':
+                await ctx.send('Great! What Nickname would you like to add?')
+
+                def check2(user):
+                    return user == ctx.author
+
+                content = await self.client.wait_for('message', check=check2, timeout=60)
+                await ctx.send(f'lol you\'d like me to add {content} wouldn\'t you')
+            else:
+                await ctx.send('👎')
+        except asyncio.TimeoutError:
+            await ctx.send('👎')
+
+
+    
 
 # Functions
 

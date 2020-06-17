@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import platform
 from cogs import _json
+import asyncio
 
 
 class General(commands.Cog):
@@ -103,6 +104,24 @@ class General(commands.Cog):
         data["blacklistedUsers"].remove(user.id)
         _json.write_json(data, "blacklist")
         await ctx.send(f"Hey, I have unblacklisted {user.name} for you.")
+
+    @commands.command()
+    async def test(self, ctx):
+        await ctx.send('Please respond yes')
+
+        def check(a):
+            return a.author == ctx.author
+
+        try:
+            msg = await self.client.wait_for('message', check=check, timeout=5)
+
+            str = 'yes'
+            if msg.content.lower() == str: 
+                await ctx.send('It worked! Yay!')
+            else:
+                await ctx.send(f'Hmm, \"{msg.content}\" doesn\'t look quite right..')
+        except asyncio.TimeoutError:
+            await ctx.send('Sorry! It looks like you didn\'t respond in time!')
 
     # Events
 
