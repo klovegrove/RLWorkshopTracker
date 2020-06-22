@@ -40,6 +40,49 @@ class Workshop(commands.Cog):
 
         print(f'loaded up {len(self.workshopMaps)} maps')
 
+    # Class Functions
+    async def checkTest(self, ctx, intro, negative = None, reacts = None):
+        await ctx.send(intro)
+        try:
+            if reacts is not None:
+                msg = await ctx.send('Please confirm by reacting with 👍 or 👎')
+                for emoji in reacts:
+                    await msg.add_reaction(emoji)           
+                def check(reaction, user):
+                    return user == ctx.author and (str(reaction.emoji) == '👍' or str(reaction.emoji) == '👎' )
+
+                reaction, user = await self.client.wait_for('reaction_add', timeout=10.0, check=check)
+                reactEmoji = str(reaction.emoji)
+
+                if reactEmoji == '👍':
+                    return True
+                elif negative is not None:
+                    await ctx.send(negative) 
+                    return False
+            else:
+                def check(message):
+                    return ctx.author == message.author
+
+                message = await self.client.wait_for('message', timeout=30.0, check=check)
+                return message
+        except asyncio.TimeoutError:
+            await ctx.send('Looks like you didn\'t respond in time... Whoops!')
+
+
+    def getMapByName(self, name):
+        out = [ x for x in self.workshopMaps if name.lower() in x.nicknames]
+        if out:
+            return out[0]
+        else:
+            return []
+
+    def jsonUpdate(self):
+        print('Map data updated, writing to JSON...')
+        self._data['workshopMaps'] = toDict(self.workshopMaps)
+        _json.write_json(self._data, 'workshopMaps')
+        print('...Update Complete!')
+
+    # Listeners
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -53,24 +96,10 @@ class Workshop(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command()
-    async def getMap(self, ctx, *, name):        
-        result = [ x for x in self.workshopMaps if name.lower() in x.nicknames]
-        if (len(result) != 0):
-            print(result[0])
-            embed = getMapEmbed(result[0])
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send("I couldn't find that map, sorry!")
-
-    def getMapByName(self, name):
-        out = [ x for x in self.workshopMaps if name.lower() in x.nicknames]
-        if out:
-            return out[0]
-        else:
-            return []
-
-    @commands.command()
-    async def getMap2(self, ctx, *, name):
+    async def getMap(self, ctx, *, name):
+        """
+        Returns the map with the specified name
+        """
         map = self.getMapByName(name)
         if map:
             embed = getMapEmbed(map)
@@ -82,38 +111,26 @@ class Workshop(commands.Cog):
     # or send request to admin?
     @commands.command()
     async def addNickname(self, ctx, *, name):
-        map = self.getMapByName(name)
-        await ctx.send(f'So you want to add a nickname to the map \"{map.name}\" by {map.author}?')
-        await ctx.send('Please confirm by reacting with 👍 or 👎')
-
-        #change this so I don't need to use if statement for emoji check
-        def check(reaction, user):
-            return user == ctx.author
+        """
+        Adds a nickname to the specified Workshop Map
+        """
+        map = self.getMapByName(name)        
 
         try:
-            reaction, user = await self.client.wait_for('reaction_add', timeout=30.0, check=check)
+            intro = f'So you want to add a nickname to the map \"{map.name}\" by {map.author}?'
+            check = await self.checkTest(ctx, intro, '👎', [ '👍', '👎'])
 
-            await ctx.send(f'reaction: {reaction}')
-            if str(reaction.emoji) == '👍':
-                await ctx.send('Great! What Nickname would you like to add?')
-
-                def check2(x):
-                    return x.author == ctx.author
-                
+            if check:
+                intro = 'Great! What Nickname would you like to add?'                
                 try:
-                    msg = await self.client.wait_for('message', check=check2, timeout=30)
-                    # await ctx.send(f'lol you\'d like me to add {msg.content} wouldn\'t you')
+                    msg = await self.checkTest(ctx, intro)
 
+                    # Need to add more validation to the actual nickname
                     nickname = msg.content
                     checkMaps = self.getMapByName(nickname)
                     if not checkMaps:
                         map.nicknames.append(nickname)
-
-                        print('Map data updated, writing to JSON...')
-                        self._data['workshopMaps'] = toDict(self.workshopMaps)
-                        _json.write_json(self._data, 'workshopMaps')
-                        print('...Update Complete!')
-
+                        self.jsonUpdate()
                         await ctx.send('OK! Nickname added!')
                         embed = getMapEmbed(map)
                         await ctx.send(embed=embed)
@@ -121,41 +138,48 @@ class Workshop(commands.Cog):
                         await ctx.send(f'Sorry! That nickname already belongs to \"{checkMaps.name}\" by {checkMaps.author}')
                 except asyncio.TimeoutError:
                     await ctx.send('Looks like you didn\'t respond in time, pick a shorter nickname next time, ya dingus')
-            else:
-                await ctx.send('👎')
         except asyncio.TimeoutError:
             await ctx.send('👎')
 
     # check for permissions here
     @commands.command()
     async def removeNickname(self, ctx, *, name):
+        """
+        Removes the specified nickname from the map associated with it
+        """
         map = self.getMapByName(name)
 
-        try:
-            if map.nicknames[0] is not name:            
-                await ctx.send(f'Would you like to remove the nickname \"{name}\" from  \"{map.name}\" by {map.author}?')
-                await ctx.send('Please confirm by reacting with 👍 or 👎')
+        if map.nicknames[0] is not name:            
+            intro = f'Would you like to remove the nickname \"{name}\" from  \"{map.name}\" by {map.author}?'
+            negative = 'Alright, well thanks for wasting my time I guess...'
 
-                def check(reaction, user):
-                    return user == ctx.author and (str(reaction.emoji) == '👍' or str(reaction.emoji) == '👎' )
+            check = await self.checkTest(ctx, intro, negative, [ '👍', '👎'])
 
-                reaction, user = await self.client.wait_for('reaction_add', timeout=10.0, check=check)
-                reactEmoji = str(reaction.emoji)
+            if check: 
+                map.nicknames.remove(name)
+                self.jsonUpdate()
+                await ctx.send("Nickname removed!")
+        else:
+            await ctx.send('The default name of the map cannot be removed')
+           
 
-                if reactEmoji == '👍': 
-                    map.nicknames.remove(name)
-                    await ctx.send("Nickname removed!")
+    # Testing for generalizing checks
+    @commands.command()
+    async def test2(self, ctx):
+        intro = 'React test?'
+        negative = 'Damn...'
+        reacts = [ '👍', '👎']
+        
+        test = await self.checkTest(ctx, intro, reacts = reacts)
 
-                    print('Nickname removed, writing to JSON...')
-                    self._data['workshopMaps'] = toDict(self.workshopMaps)
-                    _json.write_json(self._data, 'workshopMaps')
-                    print('...Update Complete!')
-                else:
-                    await ctx.send('Alright, well thanks for wasting my time I guess...')
-            else:
-                await ctx.send('The default name of the map cannot be removed')
-        except asyncio.TimeoutError:
-            await ctx.send('Looks like you didn\'t respond in time...feelsbadman')
+        if test is True:
+            await ctx.send('Well it did!')
+        if test is False:
+            msg = await self.checkTest(ctx, intro = 'Well type a message then')
+            await ctx.send(f'It worked! Here\'s what you typed: {msg.content}')
+    
+    
+
 
 # Functions
 
