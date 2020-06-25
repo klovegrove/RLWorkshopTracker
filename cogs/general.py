@@ -6,7 +6,6 @@ import asyncio
 
 
 class General(commands.Cog):
-    
     def __init__(self, client):
         self.client = client
 
@@ -23,10 +22,14 @@ class General(commands.Cog):
         Returns current latency
         """
         # await ctx.send(f'Pong! latency: {round(client.latency * 1000)}ms')
-        embed = discord.Embed(title="Pong!", description='It took {}ms.'.format(round(self.client.latency * 1000)), color=0xffffff)
-        
+        embed = discord.Embed(
+            title="Pong!",
+            description="It took {}ms.".format(round(self.client.latency * 1000)),
+            color=0xFFFFFF,
+        )
+
         await ctx.send(embed=embed)
-        await ctx.send(f'Channel ID is {ctx.channel.id}')
+        await ctx.send(f"Channel ID is {ctx.channel.id}")
 
     @commands.command()
     async def stats(self, ctx):
@@ -38,32 +41,24 @@ class General(commands.Cog):
         serverCount = len(self.client.guilds)
         memberCount = len(set(self.client.get_all_members()))
 
-        embed = discord.Embed(  title=f'{self.client.user.name} Stats', 
-                                description='\uFEFF', 
-                                colour=ctx.author.colour, 
-                                timestamp=ctx.message.created_at)
+        embed = discord.Embed(
+            title=f"{self.client.user.name} Stats",
+            description="\uFEFF",
+            colour=ctx.author.colour,
+            timestamp=ctx.message.created_at,
+        )
 
-        embed.add_field(name = 'Bot Version: ', 
-                        value = self.client.version,
-                        inline = False)
+        embed.add_field(name="Bot Version: ", value=self.client.version, inline=False)
 
-        embed.add_field(name = 'Python Version: ', 
-                        value = pythonVersion,
-                        inline = False)
+        embed.add_field(name="Python Version: ", value=pythonVersion, inline=False)
 
-        embed.add_field(name = 'Discord.py Version: ', 
-                        value = dpyVersion,
-                        inline = False)
+        embed.add_field(name="Discord.py Version: ", value=dpyVersion, inline=False)
 
-        embed.add_field(name = 'Total Servers: ', 
-                        value = serverCount,
-                        inline = False)
+        embed.add_field(name="Total Servers: ", value=serverCount, inline=False)
 
-        embed.add_field(name = 'Total Users: ', 
-                        value = memberCount,
-                        inline = False)
+        embed.add_field(name="Total Users: ", value=memberCount, inline=False)
 
-        await ctx.send(embed = embed)
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def echo(self, ctx, *, message=None):
@@ -74,7 +69,7 @@ class General(commands.Cog):
         await ctx.message.delete()
         await ctx.send(message)
 
-    @commands.command(aliases=['disconnect', 'close', 'stopbot'])
+    @commands.command(aliases=["disconnect", "close", "stopbot"])
     @commands.is_owner()
     async def logout(self, ctx):
         """
@@ -107,33 +102,33 @@ class General(commands.Cog):
 
     @commands.command()
     async def test(self, ctx):
-        await ctx.send('Please respond yes')
+        await ctx.send("Please respond yes")
 
         def check(a):
             return a.author == ctx.author
 
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=5)
+            msg = await self.client.wait_for("message", check=check, timeout=5)
 
-            str = 'yes'
-            if msg.content.lower() == str: 
-                await ctx.send('It worked! Yay!')
+            str = "yes"
+            if msg.content.lower() == str:
+                await ctx.send("It worked! Yay!")
             else:
-                await ctx.send(f'Hmm, \"{msg.content}\" doesn\'t look quite right..')
+                await ctx.send(f'Hmm, "{msg.content}" doesn\'t look quite right..')
         except asyncio.TimeoutError:
-            await ctx.send('Sorry! It looks like you didn\'t respond in time!')
+            await ctx.send("Sorry! It looks like you didn't respond in time!")
 
     # Events
 
     @commands.Cog.listener()
-    async def on_member_join(self, member : discord.Member):
+    async def on_member_join(self, member: discord.Member):
         channel = self.client.get_channel(708461726080827412)
-        await channel.send(f'{member.mention} has joined the server!')
+        await channel.send(f"{member.mention} has joined the server!")
 
     @commands.Cog.listener()
-    async def on_member_remove(self, member : discord.Member):
+    async def on_member_remove(self, member: discord.Member):
         channel = self.client.get_channel(708461726080827412)
-        await channel.send(f'{member.mention} has left the server...')
+        await channel.send(f"{member.mention} has left the server...")
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -150,14 +145,19 @@ class General(commands.Cog):
             m, s = divmod(error.retry_after, 60)
             h, m = divmod(m, 60)
             if (int(h) == 0) and (int(m) == 0):
-                await ctx.send(f' You must wait {int(s)} seconds to use this command!')
+                await ctx.send(f" You must wait {int(s)} seconds to use this command!")
             elif (int(h) == 0) and (int(m) != 0):
-                await ctx.send(f' You must wait {int(m)} minutes and {int(s)} seconds to use this command!')
+                await ctx.send(
+                    f" You must wait {int(m)} minutes and {int(s)} seconds to use this command!"
+                )
             else:
-                await ctx.send(f' You must wait {int(h)} hours, {int(m)} minutes and {int(s)} seconds to use this command!')
+                await ctx.send(
+                    f" You must wait {int(h)} hours, {int(m)} minutes and {int(s)} seconds to use this command!"
+                )
         elif isinstance(error, commands.CheckFailure):
             await ctx.send("Hey! You lack permission to use this command.")
         raise error
+
 
 def setup(client):
     client.add_cog(General(client))

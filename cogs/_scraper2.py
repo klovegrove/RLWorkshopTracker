@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 import re
-import _json
 
 ## What I want this to do:
 #### 1. Get data from steam
