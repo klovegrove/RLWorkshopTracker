@@ -5,8 +5,13 @@ from datetime import date
 from cogs import _scraper, _json
 import asyncio
 
-# TODO: add method for looking up newly added maps
-#         *gonna have to start storing the date the map is added
+# TODO: - add method for looking up newly added maps
+#           *gonna have to start storing the date the map is added
+#       - add more error handling, like for map lookups
+#       - add tracking data
+#       - tracking lookup
+#       - leaderboards
+#       - VALIDATION FOR TRACKING MEASURES
 
 
 class Workshop(commands.Cog):
@@ -77,14 +82,10 @@ class Workshop(commands.Cog):
                 )
                 return message
         except asyncio.TimeoutError:
-            await ctx.send("Looks like you didn't respond in time... Whoops!")
+            await ctx.send("Looks like you didn't respond in time... Whoops!") 
 
     def getMapByName(self, name):
-        out = [x for x in self.workshopMaps if name.lower() in x.nicknames]
-        if out:
-            return out[0]
-        else:
-            return []
+        return next((x for x in self.workshopMaps if name.lower() in x.nicknames), None)
 
     def jsonUpdate(self):
         print("Map data updated, writing to JSON...")
@@ -110,7 +111,7 @@ class Workshop(commands.Cog):
         """
         Returns the map with the specified name
         """
-        map = self.getMapByName(name)
+        map = self.getMapByName2(name)
         if map:
             embed = getMapEmbed(map)
             await ctx.send(embed=embed)
@@ -178,25 +179,27 @@ class Workshop(commands.Cog):
 
     # Testing for generalizing checks
     @commands.command()
-    async def test2(self, ctx, name):
-        intro = "React test?"
-        negative = "Damn..."
-        reacts = ["👍", "👎"]
+    async def test2(self, ctx):
+        # map = self.workshopMaps[2]
 
-        test = await self.checkTest(ctx, intro, reacts=reacts)
+        #test = any(d["userID"] == str(ctx.author.id) for d in map.trackingData["Data"])
+        # test = next(d for d in map.trackingData["Data"] if d["userID"] == str(ctx.author.id))
+        # print(type(map.trackingData["Data"][0]))
+        # print(type(ctx.author.id))
+        # print(map.trackingData["Data"][0]["userID"])
 
-        if test is True:
-            await ctx.send("Well it did!")
-        if test is False:
-            msg = await self.checkTest(ctx, intro="Well type a message then")
-            await ctx.send(f"It worked! Here's what you typed: {msg.content}")
+        for map in self.workshopMaps:
+            print(map.nicknames)
 
     # check for permissions here
+    #
+    # NEED TO ADD WAY OF SPECIFYING DATA FORMATS
+    #   also need to make sure measures are singular
     @commands.command()
     async def addMeasure(self, ctx, *, name):
         """
         Adds a way of measuring progress on a specified map
-        """
+        """        
         map = self.getMapByName(name)
 
         intro = f'Would you like to add a progress metric to "{map.name}" by {map.author}?'
@@ -205,19 +208,59 @@ class Workshop(commands.Cog):
         check = await self.checkTest(ctx, intro, negative, ["👍", "👎"])
 
         if check:
-            intro = 'Okay great! What would you like to add?'
+            intro = 'Okay great! What would you like to add? Make sure your metric is in singular form'
             msg = await self.checkTest(ctx, intro)
 
             measure = msg.content.lower()
 
-            trackingData = map.trackingData
-            if measure not in trackingData["type"]:
-                trackingData["type"].append(measure)
+            # trackingData = map.trackingData
+            if measure not in map.trackingData["type"]:
+                map.trackingData["type"].append(measure)
                 self.jsonUpdate
                 await ctx.send(f'Alright I\'ve added "{measure}" to "{map.name}"')
             else:
                 await ctx.send(f'Looks like {measure} is already in there, Whoops!')
+
+    @commands.command()
+    async def record(self, ctx, *, name):
+        map = self.getMapByName(name)
         
+        intro = f'Would you like to record progress for "{map.name}" by {map.author}?'
+        negative = '....ALright then.'
+
+        check = await self.checkTest(ctx, intro, negative, ["👍", "👎"])
+
+        if check:
+            if len(map.trackingData["type"]) == 0:
+                # need to add measure
+            else if len(map.trackingData["type"]) == 1:
+                trackingType = map.trackingData["type"][0]
+            else:
+                prompt = "What would you like to record?"
+                index = 1
+
+                for t in map.trackingData["type"]:
+                    prompt += f"\n{index} - {t}"
+                    index += 1
+                prompt += f"\n{index} - All of the above"
+
+                msg = await self.checkTest(ctx, prompt)
+                choice = int(msg.content)
+            
+
+
+            prompt = f"Enter new {map.trackingData[type][0]:}"
+
+            input = await self.checkTest(ctx, prompt)
+            data = input.content
+
+            # validation here
+
+            userData = next(d for d in map.trackingData["Data"] if d["userID"] == str(ctx.author.id))
+
+            userData
+
+
 
 # Functions
 

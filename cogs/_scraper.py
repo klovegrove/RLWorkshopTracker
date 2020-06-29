@@ -79,7 +79,15 @@ def getWorkshopMaps(maps = []):
         # if the id is in the list, add the existing trackingData
         if (map.id in idList):
             map.trackingData = [ x for x in maps if x.id == map.id ][0].trackingData
-            map.nicknames = [ x.nicknames for x in maps if x.id == map.id]
+            map.nicknames = [ x.nicknames for x in maps if x.id == map.id][0]
+            """nicknames = [ x.nicknames for x in maps if x.id == map.id][0]
+            if str(type(nicknames[0])) == "<class 'list'>":
+                print("in if")
+                map.nicknames.extend(nicknames[0])
+                #map.nicknames = ["fuck"]
+            else:
+                 map.nicknames = [ x.nicknames for x in maps if x.id == map.id][0]
+                 """
 
         workshopMaps.append(map)
         changedIds.append(map.id)        
@@ -90,10 +98,9 @@ def getWorkshopMaps(maps = []):
     unchangedMaps.extend(workshopMaps)
 
     workshopMaps = unchangedMaps
-
     return workshopMaps
 
-x = getWorkshopMaps()
+# x = getWorkshopMaps()
 
-for map in x:
-    print(map.name)
+# for map in x:
+#    print(map.name)

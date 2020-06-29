@@ -1,5 +1,5 @@
 {
-    "lastUpdated": "2020-05-01",
+    "lastUpdated": "2020-06-26",
     "workshopMaps": [
         {
             "id": "0000000000",
@@ -52,15 +52,15 @@
             }
         },
         {
-            "id": "1542921391",
-            "name": "Yoshi Circuit - MKRL",
+            "id": "1576137650",
+            "name": "Air Dribble Challenge",
             "nicknames": [
-                "yoshi circuit - mkrl"
+                "air dribble challenge"
             ],
-            "author": "Thanrek",
-            "description": "Yoshi Circuit is the first map in a series of maps I'm making.\n\n IMPORTANT INFO : \n\n!!!  You will need these additional files for all the textures to work properly !!!\n\nThe map has ...",
-            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/771737316053093312/0AD4ACA26EE8EFE2CF407B537E5A7712F586CAC0/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1542921391&searchtext=",
+            "author": "gidek",
+            "description": "  I spend hundreds of hours making maps for you guys without any benefits. I created a patreon so you can help me getting money out of it. If you like this map please consider a donation.   \nhttps://www.patreon.com/gidek\n(1000$ goal reach = start of...",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/947341732759052968/6CE896060A5568C588509EF78063DB10CD9E6248/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1576137650&searchtext=",
             "trackingData": ""
         },
         {
@@ -75,6 +75,18 @@
             "description": "French Fries presents the second map in the Dribbling Challenge Series. \n\nIf any textures appear black make sure to download and follow the instructions from \nhttps://rocketleaguemods.com/mods/workshop-textures/\n\nCheck out the current speedrunning rec...",
             "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/859475350337271672/335F48C3F5A23C8BE0CEF5B34DA3570632020539/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
             "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=964271505&searchtext=",
+            "trackingData": ""
+        },
+        {
+            "id": "1542921391",
+            "name": "Yoshi Circuit - MKRL",
+            "nicknames": [
+                "yoshi circuit - mkrl"
+            ],
+            "author": "Thanrek",
+            "description": "Yoshi Circuit is the first map in a series of maps I'm making.\n\n IMPORTANT INFO : \n\n!!!  You will need these additional files for all the textures to work properly !!!\n\nThe map has ...",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/771737316053093312/0AD4ACA26EE8EFE2CF407B537E5A7712F586CAC0/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1542921391&searchtext=",
             "trackingData": ""
         },
         {
@@ -210,18 +222,6 @@
             "trackingData": ""
         },
         {
-            "id": "1429288182",
-            "name": "Speed Jump 2 - By dmc",
-            "nicknames": [
-                "speed jump 2 - by dmc"
-            ],
-            "author": "dmc",
-            "description": "An obstacle course. Difficulty: Intermediate - Hard\n\n~~~~~~~~~~~~~~~~~~\n\nMap list:\nNoob Dribble - https://steamcommunity.com/sharedfiles/filedetails/?id=1843822064\nHornets Nest - https://steamcommunity.com/sharedfiles/filedetails/?id=1827631206\nMean...",
-            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/959713374304091368/1A06B8B14FF381FB5B1448674191475137C3AE34/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1429288182&searchtext=",
-            "trackingData": ""
-        },
-        {
             "id": "1671658424",
             "name": "Speed Jump: Rings 3 - By dmc",
             "nicknames": [
@@ -231,6 +231,18 @@
             "description": "An obstacle course. Difficulty: Intermediate - Hard\n\n~~~~~~~~~~~~~~~~~~\n\nMap list:\nNoob Dribble - https://steamcommunity.com/sharedfiles/filedetails/?id=1843822064\nHornets Nest - https://steamcommunity.com/sharedfiles/filedetails/?id=1827631206\nMean...",
             "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/1008149006328242872/462CF1C5B0622D316F242F75E2A78B873CD8058B/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
             "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1671658424&searchtext=",
+            "trackingData": ""
+        },
+        {
+            "id": "1429288182",
+            "name": "Speed Jump 2 - By dmc",
+            "nicknames": [
+                "speed jump 2 - by dmc"
+            ],
+            "author": "dmc",
+            "description": "An obstacle course. Difficulty: Intermediate - Hard\n\n~~~~~~~~~~~~~~~~~~\n\nMap list:\nNoob Dribble - https://steamcommunity.com/sharedfiles/filedetails/?id=1843822064\nHornets Nest - https://steamcommunity.com/sharedfiles/filedetails/?id=1827631206\nMean...",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/959713374304091368/1A06B8B14FF381FB5B1448674191475137C3AE34/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1429288182&searchtext=",
             "trackingData": ""
         },
         {
@@ -282,18 +294,6 @@
             "trackingData": ""
         },
         {
-            "id": "1386090040",
-            "name": "Rocket Park by Raxacory [v2.0.1]",
-            "nicknames": [
-                "rocket park by raxacory [v2.0.1]"
-            ],
-            "author": "Raxacory",
-            "description": "Welcome to the Rocket Park!\n\n Key Features \n- Race track / obstacle course with lap timer\n- Skate park area\n- LAN support (for  Rocket Launcher )\n- Training fields\n- Racing oval\n- T...",
-            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/960857804585009400/D198A1C8F12946C1A75E94CA560143A715633967/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1386090040&searchtext=",
-            "trackingData": ""
-        },
-        {
             "id": "1581379736",
             "name": "Speed Jump: Trials 2",
             "nicknames": [
@@ -306,18 +306,6 @@
             "trackingData": ""
         },
         {
-            "id": "1198375343",
-            "name": "[2-8 Players] Booster-Rooster",
-            "nicknames": [
-                "[2-8 players] booster-rooster"
-            ],
-            "author": "Derzo",
-            "description": "An early version of my racing map for the RL mods mapping contest\n\n How to play with friends! \n1.  Download Rocket Launcher \n2. [url...",
-            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/857235404787812362/D4F4D4A817699F270B77FB442CAFCB1FEAE9CF85/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1198375343&searchtext=",
-            "trackingData": ""
-        },
-        {
             "id": "1694288506",
             "name": "Dribble 2 Overhaul",
             "nicknames": [
@@ -327,6 +315,30 @@
             "description": "An overhaul of Dribbling Challenge #2.\n\nThe map can be fully reset without having to back out to the main menu by touching the catfish on the level 1 platform. On the starting platform there are several option toggles.\n\nThe white orb - \nWhile in Casua...",
             "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/775097262186053490/7B850A4F091945690F5881E2FAFD82A2A86ABB58/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
             "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1694288506&searchtext=",
+            "trackingData": ""
+        },
+        {
+            "id": "1386090040",
+            "name": "Rocket Park by Raxacory [v2.0.1]",
+            "nicknames": [
+                "rocket park by raxacory [v2.0.1]"
+            ],
+            "author": "Raxacory",
+            "description": "Welcome to the Rocket Park!\n\n Key Features \n- Race track / obstacle course with lap timer\n- Skate park area\n- LAN support (for  Rocket Launcher )\n- Training fields\n- Racing oval\n- T...",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/960857804585009400/D198A1C8F12946C1A75E94CA560143A715633967/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1386090040&searchtext=",
+            "trackingData": ""
+        },
+        {
+            "id": "1198375343",
+            "name": "[2-8 Players] Booster-Rooster",
+            "nicknames": [
+                "[2-8 players] booster-rooster"
+            ],
+            "author": "Derzo",
+            "description": "An early version of my racing map for the RL mods mapping contest\n\n How to play with friends! \n1.  Download Rocket Launcher \n2. [url...",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/857235404787812362/D4F4D4A817699F270B77FB442CAFCB1FEAE9CF85/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1198375343&searchtext=",
             "trackingData": ""
         },
         {
@@ -390,6 +402,18 @@
             "trackingData": ""
         },
         {
+            "id": "2091105949",
+            "name": "Lethamyr's Hoops Stadium",
+            "nicknames": [
+                "lethamyr's hoops stadium"
+            ],
+            "author": "Leth",
+            "description": "Hoops... but it's Stadium?\n\nFeel free to sub to my youtube: https://youtube.com/c/lethamyr",
+            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/1014943781015321711/75A121C05442142D95F022CD4FBFF8AD4AA520EB/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
+            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=2091105949&searchtext=",
+            "trackingData": ""
+        },
+        {
             "id": "1906378036",
             "name": "Aim training (new update) - By CoCo",
             "nicknames": [
@@ -399,18 +423,6 @@
             "description": "Shoot the targets and try to get the max score by being as consistent as possibe!\n\n- Mods -\n\n ~Easy~ \n\nGoal sized target. Simple random ground shots, random spawns.\n\n ~Normal~ \n\nCustomizable mod :\n- Random target sizes (if not enabled ...",
             "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/780742301338671801/E3624445A19FE1A4D98B127ACCB285C4A70E0B1E/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
             "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1906378036&searchtext=",
-            "trackingData": ""
-        },
-        {
-            "id": "1576137650",
-            "name": "Air Dribble Challenge",
-            "nicknames": [
-                "air dribble challenge"
-            ],
-            "author": "gidek",
-            "description": "  I spend hundreds of hours making maps for you guys without any benefits. I created a patreon so you can help me getting money out of it. If you like this map please consider a donation.   \nhttps://www.patreon.com/gidek\n(1000$ goal reach = start of...",
-            "imgLink": "https://steamuserimages-a.akamaihd.net/ugc/947341732759052968/6CE896060A5568C588509EF78063DB10CD9E6248/?imw=200&imh=200&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-            "mapLink": "https://steamcommunity.com/sharedfiles/filedetails/?id=1576137650&searchtext=",
             "trackingData": ""
         }
     ]
